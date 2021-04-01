@@ -1,0 +1,17 @@
+ #links{
+height: 600px;
+width: 250px;
+}
+#containerNews{
+background-color: chartreuse;
+height: 730px;
+width: 750px;
+}
+#trends{
+background-color: cornflowerblue;
+height: 600px;
+width: 250px;
+} 
+/*.mainDivs #links, #containerNews, #trends{
+    display: inline-flex;
+} */
