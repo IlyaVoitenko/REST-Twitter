@@ -14,6 +14,26 @@ width: 250px;
 .divInfo{
     padding-left: 50px;
 }
-.name{
-    color: crimson;
+.nameUser{
+    font-weight:bold;
+    font-size: 20px;
+}
+.email{
+    font-weight:normal;
+    color: grey;
+}
+.titlePost{
+    font-weight:600;
+}
+ul{
+   list-style-type: none;
+}
+.liLeft{
+    padding-left: 50px;
+}
+a{
+    text-decoration: none;
+}
+.links{
+    padding-left: 18px;
 }
