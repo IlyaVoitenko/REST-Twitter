@@ -37,3 +37,12 @@ a{
 .links{
     padding-left: 18px;
 }
+.AreaEdit{
+    width: 100%;
+}
+.inputsChange{
+    display: block;
+    padding-left: 50px;
+    width: 100%;
+    height: 100px;
+}

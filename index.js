@@ -29,39 +29,69 @@ function deletePost(url) {
    .then(response => response.json())
    .then(json => {
        json.forEach((item) => {
+        let modalContent = document.querySelector('.modal-body') 
            let urlPost = `https://jsonplaceholder.typicode.com/posts/${item.id}`
            console.log(urlPost)
            let post = document.createElement('div');
            post.className = 'postDiv'
            post.innerHTML +=
                `
-       <ul id="${'id'+item.id}">
-       <li><button type="button" class="btn btn-danger delete" id="${item.id}">Delete</button>  <button type="button" class="btn btn-info editBtn">Edit</button></li>
-       <li> <p class="nameUser">${item.name} <span class="email">${item.email}</span></p></li>
-       <li class="links"><a  href="${item.website}">${item.website}</a></li>
-       </ul>
-       `
-       containerNews.appendChild(post)
+                <ul id="${'id'+item.id}">
+                        <li><button type="button" class="btn btn-danger delete" id="${item.id}">Delete</button>  <type="button" class="btn btn-primary editBtn" data-bs-toggle="modal" data-bs-target="#staticBackdrop" id="${item.id}">Edit</li>
+                        <li> <p class="nameUser">${item.name} <span class="email">${item.email}</span></p></li>
+                        <li class="links"><a  href="${item.website}">${item.website}</a></li>
+                </ul>
+              `
+            
+           containerNews.appendChild(post)
+           let addbtn = document.querySelector(`#${'id'+item.id} .addbtn`)
            let deleteBtn = document.querySelector(`#${'id'+item.id} .delete`);
+           let editBtn = document.querySelector(`#${'id'+item.id} .editBtn`)
            let ul = document.querySelector(`#${'id'+item.id}`);
           
            fetch(urlPost)
                .then(response => response.json())
                .then(json => {
+                   let dictanceDivs = document.createElement('p')
                    let singlePost = document.createElement('p');
+                   let inputChangeTitle = document.createElement('textarea')
+                   let inputChangeBody = document.createElement('textarea')
+                   let titlePost = document.createElement('p');
+                   let btnReady= document.createElement('button')
+                   btnReady.innerText='Ready'
+                   btnReady.className='btn btn-success '
+                   inputChangeTitle.className='inputsChange btnReady'
+                   inputChangeBody.className='inputsChange '
                    singlePost.className = 'liLeft'
                    singlePost.innerHTML = json.body;
-                   let titlePost = document.createElement('p');
                    titlePost.className = 'liLeft'
                    titlePost.innerHTML = json.title;
                    post.appendChild(titlePost)
                    post.appendChild(singlePost)
-                    deleteBtn.addEventListener('click', (e)=> {
+                   editBtn.addEventListener('click',()=>{
+                    inputChangeTitle.value+=`${json.title}`
+                    inputChangeBody.value+=`${json.body}`
+                    post.appendChild(inputChangeTitle)
+                    post.appendChild(inputChangeBody)
+                    post.appendChild(btnReady)
+                    post.appendChild(dictanceDivs)
+                        btnReady.addEventListener('click',()=>{
+                            titlePost.innerHTML = inputChangeTitle.value
+                            singlePost.innerHTML = inputChangeBody.value
+                            inputChangeTitle.remove()
+                            inputChangeBody.remove()
+                            btnReady.remove()
+                            dictanceDivs.remove()
+                        })
+                   })
+                   deleteBtn.addEventListener('click', ()=> {
                         deletePost(urlPost);
                         ul.remove();
                         singlePost.remove()
                         titlePost.remove()
-                    })
-               })
+                     })
+                   
+            })
        })
    })
+  
