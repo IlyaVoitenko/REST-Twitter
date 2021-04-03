@@ -24,27 +24,46 @@ function deletePost(url) {
         method:'DELETE'
     })
 }
+function editPost(url,inputChangeTitle,inputChangeBody) {
+    fetch(url,{
+        method:'PATCH',
+        body:JSON.stringify({
+            "title": inputChangeTitle,
+            "body":inputChangeBody
+        }),
+        headers:{
+            'Content-type':"application/json; charset=UTF-8"
+        }
+    })
+}
    const url = 'https://jsonplaceholder.typicode.com/users';
    fetch(url)
    .then(response => response.json())
    .then(json => {
+
+    let dictanceDivs = document.createElement('p')
+    
+    containerNews.innerHTML+=`<div class = "divConteinerBtnAddPost">`
+      let btnAddPost = document.createElement('button')
+       btnAddPost.innerHTML='Add post'
+       btnAddPost.className = 'btnAddPost'
+       containerNews.append(btnAddPost)
+    containerNews.innerHTML+=`</div>`
+    containerNews.append(dictanceDivs)
+      
        json.forEach((item) => {
-        let modalContent = document.querySelector('.modal-body') 
            let urlPost = `https://jsonplaceholder.typicode.com/posts/${item.id}`
            console.log(urlPost)
            let post = document.createElement('div');
            post.className = 'postDiv'
-           post.innerHTML +=
-               `
+           post.innerHTML += `
                 <ul id="${'id'+item.id}">
                         <li><button type="button" class="btn btn-danger delete" id="${item.id}">Delete</button>  <type="button" class="btn btn-primary editBtn" data-bs-toggle="modal" data-bs-target="#staticBackdrop" id="${item.id}">Edit</li>
                         <li> <p class="nameUser">${item.name} <span class="email">${item.email}</span></p></li>
                         <li class="links"><a  href="${item.website}">${item.website}</a></li>
                 </ul>
               `
-            
            containerNews.appendChild(post)
-           let addbtn = document.querySelector(`#${'id'+item.id} .addbtn`)
            let deleteBtn = document.querySelector(`#${'id'+item.id} .delete`);
            let editBtn = document.querySelector(`#${'id'+item.id} .editBtn`)
            let ul = document.querySelector(`#${'id'+item.id}`);
@@ -52,7 +71,6 @@ function deletePost(url) {
            fetch(urlPost)
                .then(response => response.json())
                .then(json => {
-                   let dictanceDivs = document.createElement('p')
                    let singlePost = document.createElement('p');
                    let inputChangeTitle = document.createElement('textarea')
                    let inputChangeBody = document.createElement('textarea')
@@ -78,6 +96,7 @@ function deletePost(url) {
                         btnReady.addEventListener('click',()=>{
                             titlePost.innerHTML = inputChangeTitle.value
                             singlePost.innerHTML = inputChangeBody.value
+                            editPost(urlPost,inputChangeTitle.value,inputChangeBody.value)
                             inputChangeTitle.remove()
                             inputChangeBody.remove()
                             btnReady.remove()
@@ -90,8 +109,8 @@ function deletePost(url) {
                         singlePost.remove()
                         titlePost.remove()
                      })
-                   
             })
        })
+       
    })
   
